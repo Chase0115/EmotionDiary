@@ -43,4 +43,5 @@
 .saveBtn {
   width: 20rem;
   height: 2rem;
+  cursor: pointer;
 }
