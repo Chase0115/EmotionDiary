@@ -1,0 +1,46 @@
+.todayDiary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  min-width: 30rem;
+  height: 40rem;
+  border: 1px solid black;
+}
+
+.writeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 1rem;
+  width: 20rem;
+  max-width: 20rem;
+  font-size: 1.5rem;
+}
+
+.description {
+  margin-bottom: 1rem;
+  width: 20rem;
+  min-width: 20rem;
+  max-width: 20rem;
+  font-size: 1rem;
+}
+
+.score {
+  margin-bottom: 2rem;
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+}
+
+.selectBox {
+  width: 5rem;
+  margin-left: 1rem;
+}
+.saveBtn {
+  width: 20rem;
+  height: 2rem;
+}
