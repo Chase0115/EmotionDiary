@@ -13,15 +13,23 @@ function App() {
     setList([newItem, ...list]);
   };
 
-  const onDelete = (id) => {
+  const onRemove = (id) => {
     const newList = list.filter((item) => id !== item.id);
     setList(newList);
   };
 
+  const onUpdate = (id, newDesc) => {
+    setList(
+      list.map((item) =>
+        item.id === id ? { ...item, description: newDesc } : item
+      )
+    );
+  };
+
   return (
     <div className='app'>
-      <TodayDiary onCreate={onCreate} id={id}/>
-      <DiaryList list={list} onDelete={onDelete} />
+      <TodayDiary onCreate={onCreate} id={id} />
+      <DiaryList list={list} onRemove={onRemove} onUpdate={onUpdate} />
     </div>
   );
 }

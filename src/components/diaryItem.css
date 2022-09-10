@@ -1,7 +1,8 @@
 .diaryItem {
   width: 25rem;
-  height: 15rem;
+  height: 18rem;
   background-color: #CCCCCC;
+  padding: 10px;
   justify-content: center;
   margin-bottom: 1rem;
 }
@@ -24,13 +25,27 @@
 }
 
 .diaryItem .description {
+  min-height: 10rem;
   max-height: 15rem;
-  padding: 10px;
   text-align: left;
+  overflow-y: auto;
+  margin-left: 10px;
+}
+
+.diaryItem .description textarea {
+  min-width: 18rem;
+  max-width: 18rem;
+  min-height: 4rem;
+  max-height: 9rem;
   overflow-y: auto;
 }
 
+
 .diaryItem .Btns {
   display: flex;
-  padding: 10px;
+  
+}
+
+.diaryItem .Btns Button {
+  margin-right: 10px;
 }

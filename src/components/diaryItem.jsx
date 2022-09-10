@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./diaryItem.css";
 
 const DiaryItem = ({
@@ -7,14 +7,37 @@ const DiaryItem = ({
   score,
   description,
   createdTime,
-  onDelete,
+  onRemove,
+  onUpdate,
 }) => {
-  const onClick = (e) => {
-    e.preventDefault();
-    if (e.target.textContent === "Delete") {
-      if (window.confirm(`Title: ${title} \n Do you really want to delete? `)) {
-        onDelete(id);
-      }
+  const [isUpdate, setIsUpdate] = useState(false);
+  const ToggleIsUpdate = () => setIsUpdate(!isUpdate);
+
+  const [updatedContent, setUpdatedContent] = useState(description);
+
+  const contentInput = useRef();
+
+  const handleRemove = () => {
+    if (window.confirm(`Title: ${title} \n Do you really want to delete?`)) {
+      onRemove(id);
+    }
+  };
+
+  const handleQuitUpdate = () => {
+    console.log(id);
+    setUpdatedContent(description);
+    ToggleIsUpdate();
+  };
+
+  const handleUpdate = () => {
+    if (updatedContent.length < 5) {
+      contentInput.current.focus();
+      return;
+    }
+
+    if (window.confirm("Do you want to update diary content?")) {
+      onUpdate(id, updatedContent);
+      ToggleIsUpdate();
     }
   };
 
@@ -28,12 +51,29 @@ const DiaryItem = ({
         </p>
       </div>
       <div className='description'>
-        <p>{description}</p>
+        {isUpdate ? (
+          <textarea
+            ref={contentInput}
+            value={updatedContent}
+            onChange={(e) => {
+              setUpdatedContent(e.target.value);
+            }}
+          ></textarea>
+        ) : (
+          description
+        )}
       </div>
-      <div className='Btns'>
-        <button onClick={onClick}>Delete</button>
-        <button onClick={onClick}>Update</button>
-      </div>
+      {isUpdate ? (
+        <div className='Btns'>
+          <button onClick={handleQuitUpdate}>Cancel</button>
+          <button onClick={handleUpdate}>Update</button>
+        </div>
+      ) : (
+        <div className='Btns'>
+          <button onClick={handleRemove}>Delete</button>
+          <button onClick={ToggleIsUpdate}>Update</button>
+        </div>
+      )}
     </section>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import DiaryItem from "./diaryItem";
 import "./diaryList.css";
 
-const DiaryList = ({ list, onDelete }) => {
+const DiaryList = ({ list, onRemove, onUpdate }) => {
   return (
     <div className='diaryList'>
       <h2>Diary List</h2>
@@ -11,7 +11,8 @@ const DiaryList = ({ list, onDelete }) => {
         {list.map((item) => (
           <DiaryItem
             key={item.id}
-            onDelete = {onDelete}
+            onRemove={onRemove}
+            onUpdate={onUpdate}
             {...item}
           />
         ))}
