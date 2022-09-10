@@ -8,15 +8,20 @@ function App() {
   const [id, setId] = useState(0);
 
   const onCreate = (title, score, description, createdTime) => {
-    const newItem = { id: id, title, score, description, createdTime };
+    const newItem = { id, title, score, description, createdTime };
     setId(id + 1);
     setList([newItem, ...list]);
   };
 
+  const onDelete = (id) => {
+    const newList = list.filter((item) => id !== item.id);
+    setList(newList);
+  };
+
   return (
     <div className='app'>
-      <TodayDiary onCreate={onCreate} />
-      <DiaryList list={list} />
+      <TodayDiary onCreate={onCreate} id={id}/>
+      <DiaryList list={list} onDelete={onDelete} />
     </div>
   );
 }

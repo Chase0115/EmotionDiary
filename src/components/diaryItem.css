@@ -29,3 +29,8 @@
   text-align: left;
   overflow-y: auto;
 }
+
+.diaryItem .Btns {
+  display: flex;
+  padding: 10px;
+}
