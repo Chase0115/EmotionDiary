@@ -2,11 +2,15 @@ import React from "react";
 import "./todayDiary.css";
 import { useRef, useState } from "react";
 
-const TodayDiary = () => {
+const TodayDiary = ({ onCreate, id }) => {
+  const today = new Date().getTime();
+
   const [state, setState] = useState({
+    id: id,
     title: "",
     description: "",
     score: "3",
+    createdTime: today,
   });
 
   const titleInput = useRef();
@@ -31,19 +35,28 @@ const TodayDiary = () => {
       return;
     }
 
+    onCreate(state.title, state.score, state.description, state.createdTime);
+
+    setState({
+      id: id + 1,
+      title: "",
+      description: "",
+      score: "3",
+      createdTime: today,
+    });
+
     alert("Saved Today's Diary");
   };
 
+  console.log(state);
+
   return (
     <div className='todayDiary'>
-      <h2>Today's Dirary</h2>
+      <h2>Today's Diary</h2>
       <form
         className='writeForm'
         onSubmit={(e) => {
           onSubmit(e, state.description);
-          console.log(
-            `title: ${state.title} desc: ${state.description} score: ${state.score}`
-          );
         }}
       >
         <input
@@ -80,7 +93,6 @@ const TodayDiary = () => {
             <option value={5}>5</option>
           </select>
         </label>
-
         <input type='submit' value='Save' />
       </form>
     </div>

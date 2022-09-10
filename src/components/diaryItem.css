@@ -1,0 +1,31 @@
+.diaryItem {
+  width: 25rem;
+  height: 15rem;
+  background-color: #CCCCCC;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.diaryItem .title {
+  display: block;
+  justify-content: left;
+  margin-left: 1rem;
+  border-bottom: 1px solid #666666;
+}
+
+.diaryItem .title p {
+  margin: 0.2rem 0;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.diaryItem .date {
+  color: #666666
+}
+
+.diaryItem .description {
+  max-height: 15rem;
+  padding: 10px;
+  text-align: left;
+  overflow-y: auto;
+}
