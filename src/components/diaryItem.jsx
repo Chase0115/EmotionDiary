@@ -24,7 +24,6 @@ const DiaryItem = ({
   };
 
   const handleQuitUpdate = () => {
-    console.log(id);
     setUpdatedContent(description);
     ToggleIsUpdate();
   };
