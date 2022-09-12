@@ -5,6 +5,7 @@
   padding: 10px;
   justify-content: center;
   margin-bottom: 1rem;
+  overflow-y: auto;
 }
 
 .diaryItem .title {
