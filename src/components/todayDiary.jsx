@@ -1,8 +1,13 @@
 import React from "react";
 import "./todayDiary.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
-const TodayDiary = ({ onCreate, id }) => {
+const TodayDiary =({ onCreate, id }) => {
+
+  useEffect(() => {
+    console.log("DiaryEditor Render")
+  })
+
   const today = new Date().getTime();
 
   const [state, setState] = useState({
@@ -47,8 +52,6 @@ const TodayDiary = ({ onCreate, id }) => {
 
     alert("Saved Today's Diary");
   };
-
-  console.log(state);
 
   return (
     <div className='todayDiary'>
@@ -98,4 +101,4 @@ const TodayDiary = ({ onCreate, id }) => {
     </div>
   );
 };
-export default TodayDiary;
+export default React.memo(TodayDiary);

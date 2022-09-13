@@ -4,6 +4,7 @@ import DiaryList from "./components/diaryList";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
+import { useCallback } from "react";
 
 function App() {
   const [list, setList] = useState([]);
@@ -30,11 +31,11 @@ function App() {
     getData();
   }, []);
 
-  const onCreate = (title, score, description, createdTime) => {
+  const onCreate = useCallback((title, score, description, createdTime) => {
     const newItem = { id, title, score, description, createdTime };
     setId(id + 1);
-    setList([newItem, ...list]);
-  };
+    setList((list) => [newItem, ...list]);
+  }, []);
 
   const onRemove = (id) => {
     const newList = list.filter((item) => id !== item.id);
