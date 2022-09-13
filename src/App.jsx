@@ -1,13 +1,46 @@
 import "./App.css";
 import TodayDiary from "./components/todayDiary";
 import DiaryList from "./components/diaryList";
-import { useState, useRef } from "react";
+import { useReducer, useRef } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { useCallback } from "react";
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "INIT": {
+      return action.list;
+    }
+    case "CREATE": {
+      const createdTime = new Date().getTime();
+      const newItem = {
+        ...action.list,
+        createdTime,
+      };
+      return [newItem, ...state];
+    }
+    case "REMOVE": {
+      return state.filter((item) => item.id !== action.targetId);
+    }
+    case "UPDATE": {
+      return state.map((item) =>
+        item.id === action.targetId
+          ? {
+              ...item,
+              description: action.newDesc,
+            }
+          : item
+      );
+    }
+    default:
+      return state;
+  }
+};
+
 function App() {
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
+
+  const [list, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(0);
 
@@ -25,7 +58,7 @@ function App() {
         id: dataId.current++,
       };
     });
-    setList(initData);
+    dispatch({ type: "INIT", list: initData });
   };
 
   useEffect(() => {
@@ -33,21 +66,19 @@ function App() {
   }, []);
 
   const onCreate = useCallback((title, score, description, createdTime) => {
-    const newItem = { id: dataId.current, title, score, description, createdTime };
-    dataId.current += 1
-    setList((list) => [newItem, ...list]);
+    dispatch({
+      type: "CREATE",
+      list: { id: dataId.current, title, score, description, createdTime },
+    });
+    dataId.current += 1;
   }, []);
 
-  const onRemove = useCallback((id) => {
-    setList((list) => list.filter((item) => id !== item.id));
+  const onRemove = useCallback((targetId) => {
+    dispatch({ type: "REMOVE", targetId });
   }, []);
 
-  const onUpdate = useCallback((id, newDesc) => {
-    setList((list) =>
-      list.map((item) =>
-        item.id === id ? { ...item, description: newDesc } : item
-      )
-    );
+  const onUpdate = useCallback((targetId, newDesc) => {
+    dispatch({ type: "UPDATE", targetId, newDesc });
   }, []);
 
   const getDiaryAnalysis = useMemo(() => {
