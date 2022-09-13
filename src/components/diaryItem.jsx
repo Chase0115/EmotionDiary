@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./diaryItem.css";
 
 const DiaryItem = ({
@@ -10,6 +10,11 @@ const DiaryItem = ({
   onRemove,
   onUpdate,
 }) => {
+
+  useEffect(() => {
+    console.log(`${id} rendered`)
+  })
+
   const [isUpdate, setIsUpdate] = useState(false);
   const ToggleIsUpdate = () => setIsUpdate(!isUpdate);
 
@@ -77,4 +82,4 @@ const DiaryItem = ({
   );
 };
 
-export default DiaryItem;
+export default React.memo(DiaryItem);

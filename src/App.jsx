@@ -1,14 +1,15 @@
 import "./App.css";
 import TodayDiary from "./components/todayDiary";
 import DiaryList from "./components/diaryList";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { useCallback } from "react";
 
 function App() {
   const [list, setList] = useState([]);
-  const [id, setId] = useState(0);
+
+  const dataId = useRef(0);
 
   const getData = async () => {
     const res = await fetch(
@@ -21,7 +22,7 @@ function App() {
         description: item.body,
         score: Math.floor(Math.random() * 5) + 1,
         createdTime: new Date().getTime(),
-        id: item.id,
+        id: dataId.current++,
       };
     });
     setList(initData);
@@ -32,23 +33,22 @@ function App() {
   }, []);
 
   const onCreate = useCallback((title, score, description, createdTime) => {
-    const newItem = { id, title, score, description, createdTime };
-    setId(id + 1);
+    const newItem = { id: dataId.current, title, score, description, createdTime };
+    dataId.current += 1
     setList((list) => [newItem, ...list]);
   }, []);
 
-  const onRemove = (id) => {
-    const newList = list.filter((item) => id !== item.id);
-    setList(newList);
-  };
+  const onRemove = useCallback((id) => {
+    setList((list) => list.filter((item) => id !== item.id));
+  }, []);
 
-  const onUpdate = (id, newDesc) => {
-    setList(
+  const onUpdate = useCallback((id, newDesc) => {
+    setList((list) =>
       list.map((item) =>
         item.id === id ? { ...item, description: newDesc } : item
       )
     );
-  };
+  }, []);
 
   const getDiaryAnalysis = useMemo(() => {
     const goodCount = list.filter((item) => item.score > 3).length;
@@ -61,7 +61,7 @@ function App() {
 
   return (
     <div className='app'>
-      <TodayDiary onCreate={onCreate} id={id} />
+      <TodayDiary onCreate={onCreate} />
       <div>
         Total Diary: {list.length} <br />
         Good: {goodCount} <br />

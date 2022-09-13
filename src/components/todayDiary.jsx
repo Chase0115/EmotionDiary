@@ -1,17 +1,11 @@
 import React from "react";
 import "./todayDiary.css";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 
-const TodayDiary =({ onCreate, id }) => {
-
-  useEffect(() => {
-    console.log("DiaryEditor Render")
-  })
-
+const TodayDiary = ({ onCreate }) => {
   const today = new Date().getTime();
 
   const [state, setState] = useState({
-    id: id,
     title: "",
     description: "",
     score: "3",
@@ -43,7 +37,6 @@ const TodayDiary =({ onCreate, id }) => {
     onCreate(state.title, state.score, state.description, state.createdTime);
 
     setState({
-      id: id + 1,
       title: "",
       description: "",
       score: "3",
