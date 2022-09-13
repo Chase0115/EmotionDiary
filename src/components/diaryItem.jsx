@@ -1,4 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
+import { useContext } from 'react';
+import { DiaryDispatchContext } from '../App';
 import "./diaryItem.css";
 
 const DiaryItem = ({
@@ -7,13 +9,9 @@ const DiaryItem = ({
   score,
   description,
   createdTime,
-  onRemove,
-  onUpdate,
 }) => {
 
-  useEffect(() => {
-    console.log(`${id} rendered`)
-  })
+  const {onRemove, onUpdate} = useContext(DiaryDispatchContext)
 
   const [isUpdate, setIsUpdate] = useState(false);
   const ToggleIsUpdate = () => setIsUpdate(!isUpdate);

@@ -1,7 +1,7 @@
 import "./App.css";
 import TodayDiary from "./components/todayDiary";
 import DiaryList from "./components/diaryList";
-import { useReducer, useRef } from "react";
+import React, { useReducer, useRef } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
 import { useCallback } from "react";
@@ -37,9 +37,11 @@ const reducer = (state, action) => {
   }
 };
 
-function App() {
-  // const [list, setList] = useState([]);
+export const DiaryStateContext = React.createContext();
 
+export const DiaryDispatchContext = React.createContext();
+
+function App() {
   const [list, dispatch] = useReducer(reducer, []);
 
   const dataId = useRef(0);
@@ -81,6 +83,10 @@ function App() {
     dispatch({ type: "UPDATE", targetId, newDesc });
   }, []);
 
+  const memoizedDispatches = useMemo(() => {
+    return {onCreate, onRemove, onUpdate}
+  }, [])
+
   const getDiaryAnalysis = useMemo(() => {
     const goodCount = list.filter((item) => item.score > 3).length;
     const badCount = list.length - goodCount;
@@ -91,16 +97,20 @@ function App() {
   const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
 
   return (
-    <div className='app'>
-      <TodayDiary onCreate={onCreate} />
-      <div>
-        Total Diary: {list.length} <br />
-        Good: {goodCount} <br />
-        Bad: {badCount} <br />
-        goodRatio: {Math.floor(goodRatio)}%
-      </div>
-      <DiaryList list={list} onRemove={onRemove} onUpdate={onUpdate} />
-    </div>
+    <DiaryStateContext.Provider value={list}>
+      <DiaryDispatchContext.Provider value={memoizedDispatches}>
+        <div className='app'>
+          <TodayDiary />
+          <div>
+            Total Diary: {list.length} <br />
+            Good: {goodCount} <br />
+            Bad: {badCount} <br />
+            goodRatio: {Math.floor(goodRatio)}%
+          </div>
+          <DiaryList />
+        </div>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 

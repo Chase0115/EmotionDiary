@@ -1,15 +1,17 @@
 import React from "react";
 import "./todayDiary.css";
 import { useRef, useState } from "react";
+import { useContext } from 'react';
+import { DiaryDispatchContext } from '../App';
 
-const TodayDiary = ({ onCreate }) => {
-  const today = new Date().getTime();
+const TodayDiary = () => {
+
+  const {onCreate} = useContext(DiaryDispatchContext)
 
   const [state, setState] = useState({
     title: "",
     description: "",
     score: "3",
-    createdTime: today,
   });
 
   const titleInput = useRef();
@@ -40,7 +42,6 @@ const TodayDiary = ({ onCreate }) => {
       title: "",
       description: "",
       score: "3",
-      createdTime: today,
     });
 
     alert("Saved Today's Diary");
